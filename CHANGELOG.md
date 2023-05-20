@@ -16,4 +16,4 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 1. Updated README.md
 2. Updated .gitignore
 3. Updated AuthenticationToken Class
-4. 
+4. Updated Namespace to be ValkyriWeb

@@ -33,5 +33,8 @@
         "allow-plugins": {
             "pestphp/pest-plugin": true
         }
+    },
+    "extra": {
+        "class": "ValkryiWeb\\WPRemoteAuth\\WPRemoteAuth"
     }
 }

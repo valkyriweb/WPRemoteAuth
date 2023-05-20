@@ -8,7 +8,7 @@
         
         public function __construct()
         {
-            $this->tableName = 'authentication_token';
+            $this->tableName = 'sales_plugin_tokens';
         }
     
         /**

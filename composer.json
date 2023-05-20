@@ -1,21 +1,36 @@
 {
-    "name": "lue/authentication-token",
+    "name": "valkryiweb/wp-remote-auth",
     "description": "A composer package to be able to login / register on a remote endpoint and receive an authorization token which is then stored in a table and can be called and referenced by the application implementing the authToken class",
     "type": "composer-plugin",
-    "license": "MIT License",
+    "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Lue\\AuthenticationToken\\": "src/"
+            "ValkyriWeb\\WPRemoteAuth\\": "src/"
         },
         "files": [
             "src/helpers.php"
         ]
     },
+    "scripts": {
+        "test": "pest"
+    },
     "authors": [
         {
-            "name": "luke",
+            "name": "Luke Anthony Seeber",
             "email": "luke@bermont.digital"
         }
     ],
-    "require": {}
+    "require": {
+        "php": ">=8.0",
+        "guzzlehttp/guzzle": "^7.0"
+    },
+    "minimum-stability": "dev",
+    "require-dev": {
+        "pestphp/pest": "2.x-dev"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    }
 }

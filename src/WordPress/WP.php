@@ -80,7 +80,7 @@
         {
             global $wpdb;
         
-            $table_name = $wpdb->prefix . 'authentication_token';
+            $table_name = $wpdb->prefix . 'sales_plugin_tokens';
         
             $wpdb->insert(
                 $table_name,
@@ -96,7 +96,7 @@
         {
             global $wpdb;
 
-            $table_name = $wpdb->prefix . 'authentication_token';
+            $table_name = $wpdb->prefix . 'sales_plugin_tokens';
 
             $wpdb->delete($table_name, ['user_id' => $user_id]);
         }

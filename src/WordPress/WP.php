@@ -1,6 +1,6 @@
 <?php
     
-    namespace ValkryiWeb\WPRemoteAuth\WordPress;
+    namespace ValkyriWeb\WPRemoteAuth\WordPress;
     
     class WP
     {

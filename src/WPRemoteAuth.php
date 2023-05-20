@@ -41,6 +41,7 @@
             } catch (\Exception $e) {
                 echo $e->getMessage();
             }
+            return 'install failed';
         }
     
         public function setArgs(mixed $args): void

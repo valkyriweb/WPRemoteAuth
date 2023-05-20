@@ -71,9 +71,10 @@
             return false;
         }
     
-        public function registerAjaxEndpoints(): RegisterAjaxEndpoints
+        public function registerAjaxEndpoints(): void
         {
-            return new RegisterAjaxEndpoints();
+            $ajaxEndpoints = new RegisterAjaxEndpoints();
+            $ajaxEndpoints();
         }
     
         private function saveToken($access_token, $user_id)

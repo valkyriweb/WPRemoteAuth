@@ -1,6 +1,7 @@
 <?php
-    
-    use ValkyriWeb\WPRemoteAuth\WPRemoteAuth;
+
+use ValkyriWeb\WPRemoteAuth\WordPress\RegisterAjaxEndpoints;
+use ValkyriWeb\WPRemoteAuth\WPRemoteAuth;
     
     require_once 'vendor/autoload.php';
     
@@ -20,7 +21,9 @@
     $email = 'test@test.com';
     $password = 'testpassword';
     $user_id = 1;
-    
+
+    (new RegisterAjaxEndpoints())();
+
     $WPAuth->login($email, $password, $user_id);
 
     $WPAuth->register($name, $email, $password, $user_id);

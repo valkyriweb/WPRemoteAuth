@@ -15,19 +15,21 @@ $ composer require valkryiweb/wp-remote-auth
 ```php
 <?php
     
-    use ValkyriWeb\AuthenticationToken\WPRemoteAuth;
+    use ValkyriWeb\WPRemoteAuth\WPRemoteAuth;
+    use ValkyriWeb\WPRemoteAuth\WordPress\RegisterAjaxEndpoints;
 
     $token = new WPRemoteAuth();
     
     // Initialise the Class
     $args = [
         'wordpress' => true,
-        'remote_login_url' => 'http://' . $baseUrl . '/login',
-        'remote_register_url' => 'http://' . $baseUrl . '/register',
-        'remote_logout_url' => 'http://' . $baseUrl . '/logout',
+        'remote_login_url' => 'http://' . $baseUrl . '/api/login',
+        'remote_register_url' => 'http://' . $baseUrl . '/api/register',
+        'remote_logout_url' => 'http://' . $baseUrl . '/api/logout',
     ];
     
     $token->init($args);
+    (new RegisterAjaxEndpoints())();
     
     // Generate a token using existing user and store it in the session / database
     $args = [

@@ -21,7 +21,6 @@
             }
 
             $this->generateWordPressTables();
-            $this->registerAjaxEndpoints();
             
             return 'WordPress tables generated';
         }
@@ -69,12 +68,6 @@
             }
             
             return false;
-        }
-    
-        public function registerAjaxEndpoints(): void
-        {
-            $ajaxEndpoints = new RegisterAjaxEndpoints();
-            $ajaxEndpoints();
         }
     
         private function saveToken($access_token, $user_id)

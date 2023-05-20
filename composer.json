@@ -3,6 +3,7 @@
     "description": "A composer package to be able to login / register on a remote endpoint and receive an authorization token which is then stored in a table and can be called and referenced by the application implementing the authToken class",
     "type": "composer-plugin",
     "license": "MIT",
+    "version": "1.0.0",
     "autoload": {
         "psr-4": {
             "ValkyriWeb\\WPRemoteAuth\\": "src/"
@@ -24,7 +25,7 @@
         "php": ">=8.0",
         "guzzlehttp/guzzle": "^7.0"
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "require-dev": {
         "pestphp/pest": "2.x-dev"
     },

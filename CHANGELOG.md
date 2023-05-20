@@ -19,3 +19,4 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 4. Updated Namespace to be ValkyriWeb
 5. Updated readme to reflect new namespace and package name, and resolved namespace in AuthContract import
 6. Adding version and minimum stability changes to composer.json
+7. Removing Register ajax endpoints from WP class and rather instantiating in anonymous function, as WordPress does not recognise the code in the class

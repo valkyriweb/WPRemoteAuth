@@ -17,3 +17,4 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 2. Updated .gitignore
 3. Updated AuthenticationToken Class
 4. Updated Namespace to be ValkyriWeb
+5. Updated readme to reflect new namespace and package name, and resolved namespace in AuthContract import

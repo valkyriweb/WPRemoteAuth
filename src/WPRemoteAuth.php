@@ -3,7 +3,7 @@
     namespace ValkyriWeb\WPRemoteAuth;
     
     use GuzzleHttp\Client;
-    use Lue\WPRemoteAuth\Contracts\AuthContract;
+    use ValkyriWeb\WPRemoteAuth\Contracts\AuthContract;
 
     class WPRemoteAuth implements AuthContract
     {

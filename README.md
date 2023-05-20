@@ -7,7 +7,7 @@ This package provides a simple way to generate and validate authentication token
 Install the latest version with
 
 ```bash
-$ composer require lue/authentication-token
+$ composer require valkryiweb/wp-remote-auth
 ```
 
 ## Basic Usage
@@ -15,7 +15,7 @@ $ composer require lue/authentication-token
 ```php
 <?php
     
-    use Lue\AuthenticationToken\WPRemoteAuth;
+    use ValkyriWeb\AuthenticationToken\WPRemoteAuth;
 
     $token = new WPRemoteAuth();
     

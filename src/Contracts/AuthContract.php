@@ -4,7 +4,7 @@ namespace ValkyriWeb\WPRemoteAuth\Contracts;
 
 interface AuthContract
 {
-public function init($args = []);
+    public function init($args = []);
 
     public function login($username, $password, $user_id);
 

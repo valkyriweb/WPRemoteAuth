@@ -1,112 +1,125 @@
 <?php
-    
-    namespace ValkyriWeb\WPRemoteAuth\WordPress;
-    
-    class WP
-    {
-        private string $tableName;
-        
-        public function __construct()
-        {
-            $this->tableName = 'sales_plugin_tokens';
-        }
-    
-        /**
-         * @throws \Exception
-         */
-        public function init()
-        {
-            if ($this->checkIfTablesInitiated()) {
-                return 'WordPress Tables Exist';
-            }
 
-            $this->generateWordPressTables();
-            
-            return 'WordPress tables generated';
+namespace ValkyriWeb\WPRemoteAuth\WordPress;
+
+class WP
+{
+    public string $tokenTableName;
+
+    public string $industryTable;
+
+    public function __construct()
+    {
+        $this->tokenTableName = 'sales_plugin_tokens';
+        $this->industryTable = 'sales_plugin_industries';
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function init()
+    {
+//            if ($this->checkIfTablesInitiated()) {
+//                return 'WordPress Tables Exist';
+//            }
+
+        $this->generateWordPressTables();
+
+        return 'WordPress tables generated';
+    }
+
+    private function generateWordPressTables()
+    {
+        global $wpdb;
+
+        if (!$wpdb) {
+            Throw new \Exception('WordPress database not found');
         }
-        
-        private function generateWordPressTables()
-        {
-            global $wpdb;
-    
-            if (!$wpdb) {
-                Throw new \Exception('WordPress database not found');
-            }
-            
-            $charset_collate = $wpdb->get_charset_collate();
-            
-            $table_name = $wpdb->prefix . $this->tableName;
-    
-            $sql = "CREATE TABLE $table_name (
+
+        $charset_collate = $wpdb->get_charset_collate();
+
+        $tokenTable = $wpdb->prefix . $this->tokenTableName;
+
+        $industryTable = $wpdb->prefix . $this->industryTable;
+
+        $sql = "CREATE TABLE $tokenTable (
                 id mediumint(9) NOT NULL AUTO_INCREMENT,
                 user_id mediumint(9) NOT NULL UNIQUE,
                 token varchar(255) NOT NULL,
                 date_created datetime NOT NULL,
                 PRIMARY KEY  (id)
             ) $charset_collate;";
-            
-            require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-    
-            dbDelta($sql);
-        }
-    
-        public function getTableName()
-        {
-            return $this->tableName;
-        }
-    
-        public function checkTokenExists($user_id)
-        {
-            global $wpdb;
-            
-            $table_name = $wpdb->prefix . $this->tableName;
-            
-            $token_exists = $wpdb->get_var("SELECT token FROM $table_name WHERE user_id = $user_id");
-            
-            if ($token_exists) {
-                return $token_exists;
-            }
-            
-            return false;
-        }
-    
-        private function saveToken($access_token, $user_id)
-        {
-            global $wpdb;
-        
-            $table_name = $wpdb->prefix . 'sales_plugin_tokens';
-        
-            $wpdb->insert(
-                $table_name,
-                [
-                    'user_id' => $user_id,
-                    'token' => $access_token,
-                    'date_created' => date('Y-m-d H:i:s'),
-                ]
-            );
-        }
 
-        private function deleteToken($user_id)
-        {
-            global $wpdb;
+        $sql .= "CREATE TABLE $industryTable (
+                id mediumint(9) NOT NULL AUTO_INCREMENT,
+                user_id mediumint(9) NOT NULL UNIQUE,
+                industry varchar(255) NOT NULL,
+                date_created datetime NOT NULL,
+                PRIMARY KEY  (id)
+            ) $charset_collate;";
 
-            $table_name = $wpdb->prefix . 'sales_plugin_tokens';
+        require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 
-            $wpdb->delete($table_name, ['user_id' => $user_id]);
-        }
-
-        public function checkIfTablesInitiated()
-        {
-            global $wpdb;
-
-            $table_name = $wpdb->prefix . $this->tableName;
-
-            $table_exists = $wpdb->get_var("SHOW TABLES LIKE '$table_name'");
-
-            if ($table_exists) {
-                return true;
-            }
-
-            return false;
-        }
+        dbDelta($sql);
     }
+
+    public function getTokenTableName()
+    {
+        return $this->tokenTableName;
+    }
+
+    public function checkTokenExists($user_id)
+    {
+        global $wpdb;
+
+        $table_name = $wpdb->prefix . $this->tokenTableName;
+
+        $token_exists = $wpdb->get_var("SELECT token FROM $table_name WHERE user_id = $user_id");
+
+        if ($token_exists) {
+            return $token_exists;
+        }
+
+        return false;
+    }
+
+    private function saveToken($access_token, $user_id)
+    {
+        global $wpdb;
+
+        $table_name = $wpdb->prefix . 'sales_plugin_tokens';
+
+        $wpdb->insert(
+            $table_name,
+            [
+                'user_id' => $user_id,
+                'token' => $access_token,
+                'date_created' => date('Y-m-d H:i:s'),
+            ]
+        );
+    }
+
+    private function deleteToken($user_id)
+    {
+        global $wpdb;
+
+        $table_name = $wpdb->prefix . 'sales_plugin_tokens';
+
+        $wpdb->delete($table_name, ['user_id' => $user_id]);
+    }
+
+    public function checkIfTablesInitiated()
+    {
+        global $wpdb;
+
+        $table_name = $wpdb->prefix . $this->tokenTableName;
+
+        $table_exists = $wpdb->get_var("SHOW TABLES LIKE '$table_name'");
+
+        if ($table_exists) {
+            return true;
+        }
+
+        return false;
+    }
+}

@@ -7,7 +7,7 @@ This package provides a simple way to generate and validate authentication token
 Install the latest version with
 
 ```bash
-$ composer require valkryiweb/wp-remote-auth
+$ composer require valkyriweb/wp-remote-auth
 ```
 
 ## Basic Usage

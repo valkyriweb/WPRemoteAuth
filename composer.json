@@ -1,5 +1,5 @@
 {
-    "name": "valkryiweb/wp-remote-auth",
+    "name": "valkyriweb/wp-remote-auth",
     "description": "A composer package to be able to login / register on a remote endpoint and receive an authorization token which is then stored in a table and can be called and referenced by the application implementing the authToken class",
     "type": "library",
     "license": "MIT",

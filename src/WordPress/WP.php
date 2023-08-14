@@ -6,12 +6,9 @@ class WP
 {
     public string $tokenTableName;
 
-    public string $industryTable;
-
-    public function __construct()
+    public function __construct($tokenTableName = 'plugin_token')
     {
-        $this->tokenTableName = 'sales_plugin_tokens';
-        $this->industryTable = 'sales_plugin_industries';
+        $this->tokenTableName = $tokenTableName;
     }
 
     /**
@@ -46,14 +43,6 @@ class WP
                 id mediumint(9) NOT NULL AUTO_INCREMENT,
                 user_id mediumint(9) NOT NULL UNIQUE,
                 token varchar(255) NOT NULL,
-                date_created datetime NOT NULL,
-                PRIMARY KEY  (id)
-            ) $charset_collate;";
-
-        $sql .= "CREATE TABLE $industryTable (
-                id mediumint(9) NOT NULL AUTO_INCREMENT,
-                user_id mediumint(9) NOT NULL UNIQUE,
-                industry varchar(255) NOT NULL,
                 date_created datetime NOT NULL,
                 PRIMARY KEY  (id)
             ) $charset_collate;";

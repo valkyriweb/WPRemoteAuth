@@ -37,8 +37,6 @@ class WP
 
         $tokenTable = $wpdb->prefix . $this->tokenTableName;
 
-        $industryTable = $wpdb->prefix . $this->industryTable;
-
         $sql = "CREATE TABLE $tokenTable (
                 id mediumint(9) NOT NULL AUTO_INCREMENT,
                 user_id mediumint(9) NOT NULL UNIQUE,

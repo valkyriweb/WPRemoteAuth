@@ -24,3 +24,4 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ### Removed
 1. Removing industry endpoints to their own plugin and class
+2. Removed hanging variable left out

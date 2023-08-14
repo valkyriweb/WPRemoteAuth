@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 2. Added CHANGELOG.md
 3. Added "test" script to composer.json
 4. added WordPress directory for WordPress specific implementations, with support for AJAX endpoint
+5. Updating arguments for WPRemoteAuth initialisation method.
 
 ### Changed
 1. Updated README.md

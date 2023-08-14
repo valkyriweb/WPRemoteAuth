@@ -24,17 +24,19 @@ class WPRemoteAuth implements AuthContract
     {
         $this->setArgs($args);
 
+        $tableName = $this->args['table_name'] ?? null;
+
         if ($this->args['wordpress'] === true) {
-            $this->tableName = $this->wordPressInstall();
+            $this->tableName = $this->wordPressInstall($tableName);
             $this->WP        = new WordPress\WP();
         }
 
     }
 
-    public function wordPressInstall(): string
+    public function wordPressInstall($tableName): string
     {
         try {
-            $wpInstall = new WordPress\WP();
+            $wpInstall = new WordPress\WP($tableName);
             $wpInstall->init();
 
             return $wpInstall->getTokenTableName();

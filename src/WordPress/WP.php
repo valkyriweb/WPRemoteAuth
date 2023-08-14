@@ -16,9 +16,9 @@ class WP
      */
     public function init()
     {
-//            if ($this->checkIfTablesInitiated()) {
-//                return 'WordPress Tables Exist';
-//            }
+        if ($this->checkIfTablesInitiated()) {
+            return 'WordPress Tables Exist';
+        }
 
         $this->generateWordPressTables();
 

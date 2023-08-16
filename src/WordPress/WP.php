@@ -74,7 +74,7 @@ class WP
     {
         global $wpdb;
 
-        $table_name = $wpdb->prefix . 'sales_plugin_tokens';
+        $table_name = $wpdb->prefix . $this->tokenTableName;
 
         $wpdb->insert(
             $table_name,
@@ -90,7 +90,7 @@ class WP
     {
         global $wpdb;
 
-        $table_name = $wpdb->prefix . 'sales_plugin_tokens';
+        $table_name = $wpdb->prefix . $this->tokenTableName;
 
         $wpdb->delete($table_name, ['user_id' => $user_id]);
     }

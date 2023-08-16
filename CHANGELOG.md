@@ -22,6 +22,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 6. Adding version and minimum stability changes to composer.json
 7. Removing Register ajax endpoints from WP class and rather instantiating in anonymous function, as WordPress does not recognise the code in the class
 8. Adding new insert industry endpoints to RegisterAjaxEndpoints class
+9. Removing hard coded endpoint for endpoints in saveToken and deleteToken methods.
 
 ### Removed
 1. Removing industry endpoints to their own plugin and class

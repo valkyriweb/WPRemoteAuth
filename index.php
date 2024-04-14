@@ -3,27 +3,26 @@
 use ValkyriWeb\WPRemoteAuth\WordPress\RegisterAjaxEndpoints;
 use ValkyriWeb\WPRemoteAuth\WPRemoteAuth;
     
-    require_once 'vendor/autoload.php';
-    
-    // Example implementation
-    $WPAuth = new WPRemoteAuth();
+require_once 'vendor/autoload.php';
 
-    $baseUrl = 'bermont-sales-api.test';
+// Example implementation
+$WPAuth = new WPRemoteAuth();
 
-    $WPAuth->init([
-        'wordpress' => true,
-        'remote_login_url' => 'http://' . $baseUrl . '/login',
-        'remote_register_url' => 'http://' . $baseUrl . '/register',
-        'remote_logout_url' => 'http://' . $baseUrl . '/logout',
-    ]);
+$baseUrl = 'test-base-url.test';
 
-    $name = 'Test User';
-    $email = 'test@test.com';
-    $password = 'testpassword';
-    $user_id = 1;
+$WPAuth->init([
+    'wordpress' => true,
+    'remote_login_url' => 'https://' . $baseUrl . '/login',
+    'remote_register_url' => 'https://' . $baseUrl . '/register',
+    'remote_logout_url' => 'https://' . $baseUrl . '/logout',
+]);
 
-    (new RegisterAjaxEndpoints())();
+$name = 'Test User';
+$email = 'test@test.com';
+$password = 'testpassword';
 
-    $WPAuth->login($email, $password, $user_id);
+(new RegisterAjaxEndpoints())();
 
-    $WPAuth->register($name, $email, $password, $user_id);
+$WPAuth->login($email, $password);
+
+$WPAuth->register($name, $email, $password);

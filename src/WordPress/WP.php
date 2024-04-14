@@ -58,13 +58,13 @@ class WP
         return $this->tokenTableName;
     }
 
-    public function checkTokenExists($user_id)
+    public function checkTokenExists()
     {
         global $wpdb;
 
         $table_name = $wpdb->prefix . $this->tokenTableName;
 
-        $token_exists = $wpdb->get_var("SELECT token FROM $table_name WHERE user_id = $user_id");
+        $token_exists = $wpdb->get_var("SELECT token FROM $table_name LIMIT 1");
 
         if ($token_exists) {
             return $token_exists;
@@ -73,7 +73,7 @@ class WP
         return false;
     }
 
-    public function saveToken($access_token, $user_id): string
+    public function saveToken($access_token, $user_id = null): string
     {
         global $wpdb;
 
@@ -83,8 +83,8 @@ class WP
             $wpdb->insert(
                 $table_name,
                 [
-                    'user_id' => $user_id,
                     'token' => $access_token,
+                    'user_id' => $user_id,
                     'date_created' => date('Y-m-d H:i:s'),
                 ]
             );
@@ -96,14 +96,14 @@ class WP
         
     }
     
-    public function deleteToken($user_id): string
+    public function deleteToken(): string
     {
         global $wpdb;
 
         $table_name = $wpdb->prefix . $this->tokenTableName;
 
         try {
-            $wpdb->delete($table_name, ['user_id' => $user_id]);
+            $wpdb->delete($table_name);
             
             return 'success';
         } catch (\Exception $e) {

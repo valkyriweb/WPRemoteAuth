@@ -22,7 +22,7 @@ class WPRemoteAuth implements AuthContract
         $this->HTTPClient = new Client();
     }
 
-    public function init($args = []): void
+    public function init($args = []): string
     {
         $this->setArgs($args);
 
@@ -31,8 +31,11 @@ class WPRemoteAuth implements AuthContract
         if ($this->args['wordpress'] === true) {
             $this->tableName = $this->wordPressInstall($tableName);
             $this->WP        = new WordPress\WP();
+            
+            return 'WordPress implementation initiated';
+        } else {
+            return 'No implementation for non-wordpress sites available yet.';
         }
-
     }
 
     public function wordPressInstall($tableName): string
@@ -43,9 +46,8 @@ class WPRemoteAuth implements AuthContract
 
             return $wpInstall->getTokenTableName();
         } catch (\Exception $e) {
-            echo $e->getMessage();
+            return $e->getMessage();
         }
-        return 'install failed';
     }
 
     public function setArgs(mixed $args): void
@@ -53,18 +55,14 @@ class WPRemoteAuth implements AuthContract
         $this->args = $args;
     }
 
-    public function login($username, $password, $user_id)
+    public function login($username, $password)
     {
         if (empty($username) || empty($password)) {
             return 'Username or password is empty';
         }
 
-        if(!$user_id) {
-            return 'User ID is empty';
-        }
-
         try {
-            $tokenExists = $this->checkTokenExists($user_id);
+            $tokenExists = $this->checkTokenExists();
 
             if (!$tokenExists) {
                 $response = $this->HTTPClient->post($this->args['remote_login_url'], [
@@ -88,7 +86,7 @@ class WPRemoteAuth implements AuthContract
         }
     }
 
-    public function register($name, $email, $password, $user_id)
+    public function register($name, $email, $password)
     {
         if (empty($name) || empty($email) || empty($password)) {
             return 'Name, username or password is empty';
@@ -104,7 +102,7 @@ class WPRemoteAuth implements AuthContract
             $response = json_decode($response->getBody()->getContents());
 
             if (isset($response->access_token)) {
-                $this->saveToken($response->access_token, $user_id);
+                $this->saveToken($response->access_token);
             }
 
             return 'success';
@@ -114,16 +112,16 @@ class WPRemoteAuth implements AuthContract
         }
     }
 
-    public function checkTokenExists($user_id)
+    public function checkTokenExists()
     {
         if ($this->args['wordpress'] === true) {
-            return $this->WP->checkTokenExists($user_id);
+            return $this->WP->checkTokenExists();
         }
         
         return 'No method to check token exists';
     }
 
-    public function saveToken($token, $user_id): string
+    public function saveToken($token, $user_id = null): string
     {
         if ($this->args['wordpress'] === true) {
             return $this->WP->saveToken($token, $user_id);
@@ -132,11 +130,11 @@ class WPRemoteAuth implements AuthContract
         return 'No method to save token';
     }
 
-    public function deleteToken($user_id): string
+    public function deleteToken(): string
     {
         if ($this->args['wordpress'] === true) {
             try {
-                return $this->WP->deleteToken($user_id);
+                return $this->WP->deleteToken();
             } catch (\Exception $e) {
                 return $e->getMessage();
             }
@@ -145,7 +143,7 @@ class WPRemoteAuth implements AuthContract
         return 'No method to delete token';
     }
 
-    public function logout($user_id): string
+    public function logout(): string
     {
         try {
             $response = $this->HTTPClient->post($this->args['remote_logout_url']);
@@ -153,7 +151,7 @@ class WPRemoteAuth implements AuthContract
             $response = json_decode($response->getBody()->getContents());
             
             if ($response->status === 'success') {
-                $this->deleteToken($user_id);
+                $this->deleteToken();
             } else {
                 return 'Error logging out';
             }

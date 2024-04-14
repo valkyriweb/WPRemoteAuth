@@ -6,13 +6,13 @@ interface AuthContract
 {
     public function init($args = []);
 
-    public function login($username, $password, $user_id);
+    public function login($username, $password);
 
-    public function register($name, $username, $password, $user_id);
+    public function register($name, $username, $password);
 
-    public function logout($user_id);
+    public function logout();
 
-    public function checkTokenExists($user_id);
+    public function checkTokenExists();
 
     public function generateToken();
 

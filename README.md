@@ -35,7 +35,6 @@ $ composer require valkyriweb/wp-remote-auth
     $args = [
         'username' => 'test',
         'password' => 'test',
-        'user_id' => 'wordpress_user_id',
     ];
     
     $token->login($args);
@@ -45,21 +44,17 @@ $ composer require valkyriweb/wp-remote-auth
         'name' => 'test',
         'email' => 'test',
         'password' => 'test',
-        'user_id' => 'wordpress_user_id',
     ];
     
     $token->register($args);
     
-    // Delete local tokens based on the current user
-    $user_id = 'wordpress_user_id';
-    
-    $token->logout($user_id);
+    $token->logout();
     
     // Save Token
     $token = $token->generate();
     $user_id = 'wordpress_user_id';
     
-    $token->saveToken($token, $user_id);
+    $token->saveToken($token);
     
     // Check if token exists in DB
     // Returns True or False

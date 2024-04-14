@@ -14,7 +14,7 @@ class WP
     /**
      * @throws \Exception
      */
-    public function init()
+    public function init(): string
     {
         if ($this->checkIfTablesInitiated()) {
             return 'WordPress Tables Exist';
@@ -24,8 +24,11 @@ class WP
 
         return 'WordPress tables generated';
     }
-
-    private function generateWordPressTables()
+    
+    /**
+     * @throws \Exception
+     */
+    private function generateWordPressTables(): void
     {
         global $wpdb;
 
@@ -39,8 +42,8 @@ class WP
 
         $sql = "CREATE TABLE $tokenTable (
                 id mediumint(9) NOT NULL AUTO_INCREMENT,
-                user_id mediumint(9) NOT NULL UNIQUE,
                 token varchar(255) NOT NULL,
+                user_id mediumint(9) NULLABLE UNIQUE,
                 date_created datetime NOT NULL,
                 PRIMARY KEY  (id)
             ) $charset_collate;";
@@ -70,32 +73,46 @@ class WP
         return false;
     }
 
-    private function saveToken($access_token, $user_id)
+    public function saveToken($access_token, $user_id): string
     {
         global $wpdb;
 
         $table_name = $wpdb->prefix . $this->tokenTableName;
 
-        $wpdb->insert(
-            $table_name,
-            [
-                'user_id' => $user_id,
-                'token' => $access_token,
-                'date_created' => date('Y-m-d H:i:s'),
-            ]
-        );
+        try {
+            $wpdb->insert(
+                $table_name,
+                [
+                    'user_id' => $user_id,
+                    'token' => $access_token,
+                    'date_created' => date('Y-m-d H:i:s'),
+                ]
+            );
+            
+            return 'success';
+        } catch (\Exception $e) {
+            return 'Error saving token' . $e->getMessage();
+        }
+        
     }
-
-    private function deleteToken($user_id)
+    
+    public function deleteToken($user_id): string
     {
         global $wpdb;
 
         $table_name = $wpdb->prefix . $this->tokenTableName;
 
-        $wpdb->delete($table_name, ['user_id' => $user_id]);
+        try {
+            $wpdb->delete($table_name, ['user_id' => $user_id]);
+            
+            return 'success';
+        } catch (\Exception $e) {
+            return 'Error deleting token' . $e->getMessage();
+        }
+        
     }
 
-    public function checkIfTablesInitiated()
+    public function checkIfTablesInitiated(): bool
     {
         global $wpdb;
 

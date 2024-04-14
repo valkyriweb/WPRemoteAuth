@@ -3,15 +3,17 @@
 namespace ValkyriWeb\WPRemoteAuth;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use ValkyriWeb\WPRemoteAuth\Contracts\AuthContract;
+use ValkyriWeb\WPRemoteAuth\WordPress\WP;
 
 class WPRemoteAuth implements AuthContract
 {
     public mixed $args;
 
-    public $tableName;
+    public string $tableName;
 
-    public $WP;
+    public WP $WP;
 
     public Client $HTTPClient;
 
@@ -20,7 +22,7 @@ class WPRemoteAuth implements AuthContract
         $this->HTTPClient = new Client();
     }
 
-    public function init($args = [])
+    public function init($args = []): void
     {
         $this->setArgs($args);
 
@@ -114,32 +116,53 @@ class WPRemoteAuth implements AuthContract
 
     public function checkTokenExists($user_id)
     {
-        return $this->WP->checkTokenExists($user_id);
+        if ($this->args['wordpress'] === true) {
+            return $this->WP->checkTokenExists($user_id);
+        }
+        
+        return 'No method to check token exists';
     }
 
-    public function saveToken($token, $user_id)
+    public function saveToken($token, $user_id): string
     {
-        return $this->WP->saveToken($token, $user_id);
+        if ($this->args['wordpress'] === true) {
+            return $this->WP->saveToken($token, $user_id);
+        }
+
+        return 'No method to save token';
     }
 
-    public function deleteToken($user_id)
+    public function deleteToken($user_id): string
     {
-        return $this->WP->deleteToken($user_id);
+        if ($this->args['wordpress'] === true) {
+            try {
+                return $this->WP->deleteToken($user_id);
+            } catch (\Exception $e) {
+                return $e->getMessage();
+            }
+        }
+
+        return 'No method to delete token';
     }
 
-    public function logout($user_id)
+    public function logout($user_id): string
     {
         try {
             $response = $this->HTTPClient->post($this->args['remote_logout_url']);
 
             $response = json_decode($response->getBody()->getContents());
-
-            $this->deleteToken($user_id);
-
+            
+            if ($response->status === 'success') {
+                $this->deleteToken($user_id);
+            } else {
+                return 'Error logging out';
+            }
+            
             return 'success';
-
         } catch (\Exception $e) {
-            echo $e->getMessage();
+            return $e->getMessage();
+        } catch (GuzzleException $e) {
+            return $e->getMessage();
         }
     }
 

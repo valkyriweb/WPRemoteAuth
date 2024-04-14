@@ -15,6 +15,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 6. Added more consistent return types
 7. Added return types to functions
 8. Added some more exception handling
+9. Adding changelog to GitHub release
 
 ### Changed
 1. Updated README.md

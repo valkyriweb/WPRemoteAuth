@@ -2,6 +2,8 @@
 
 This package provides a simple way to generate and validate authentication tokens using PHP, mainly used for my own projects, but thought it may be useful for other PHP developers out there, contributions welcome.
 
+### Current Version: 1.0.6.4
+
 ## Installation
 
 Install the latest version with
